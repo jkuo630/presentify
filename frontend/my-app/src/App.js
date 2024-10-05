@@ -1,4 +1,5 @@
 import './App.css';
+import Subtitle from './components/Subtitle';
 
 import { useState, useEffect, useRef } from 'react';
 
@@ -72,7 +73,7 @@ function App() {
       <header className="App-header">
         <button onClick={startListening}>Start Listening</button>
         <p>{listening ? 'Listening' : "Not Listening"}</p>
-        <pre>{recognizedText} {interimText}</pre>
+        <Subtitle recognizedText={recognizedText} interimText={interimText} />
         <button onClick={stopListening}>Stop Listening</button>
       </header>
     </div>
