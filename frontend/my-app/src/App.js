@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Subtitle from './components/Subtitle';
 
 import { useState, useEffect, useRef } from 'react';
 
@@ -71,22 +72,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* Image Component will go here */}
         <button onClick={startListening}>Start Listening</button>
         <p>{listening ? 'Listening' : "Not Listening"}</p>
-        <pre>{recognizedText} {interimText}</pre>
+        <Subtitle recognizedText={recognizedText} interimText={interimText} />
         <button onClick={stopListening}>Stop Listening</button>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
