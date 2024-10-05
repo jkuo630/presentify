@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "express": "^4.21.0",
+    "pexels": "^1.4.0"
+  }
+}
