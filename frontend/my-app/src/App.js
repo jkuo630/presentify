@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Subtitle from './components/Subtitle';
 
@@ -72,7 +71,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* Image Component will go here */}
         <button onClick={startListening}>Start Listening</button>
         <p>{listening ? 'Listening' : "Not Listening"}</p>
         <Subtitle recognizedText={recognizedText} interimText={interimText} />
