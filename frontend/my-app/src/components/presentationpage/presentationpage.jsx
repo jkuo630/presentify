@@ -1,6 +1,7 @@
 import "./PresentationPage.css";
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Subtitle from "../Subtitle";
 import {
   faDrum,
   faHandPaper,
@@ -176,9 +177,7 @@ function PresentationPage() {
         </div>
       </div>
       <div className="live-subtitles">
-        <pre>
-          {recognizedText} {interimText}
-        </pre>
+        <Subtitle recognizedText={recognizedText} interimText={interimText} />
       </div>
       <a href="#" className="finish-presentation-link" onClick={stop}>
         FINISH PRESENTATION
