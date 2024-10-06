@@ -32,7 +32,6 @@ img {
   object-fit: contain;
 }
 
-
 .microphone-indicator {
   margin-left: auto; /* Push the microphone indicator to the right */
 }
@@ -250,6 +249,8 @@ h1 {
 .bullet-points {
   list-style-type: disc;
   padding-left: 20px;
+  width: 400px; /* Set fixed width */
+  max-height: 400px; /* Set a maximum height if needed */
 }
 
 .bullet-points li {
