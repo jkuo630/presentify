@@ -1,6 +1,7 @@
-import "./presentationpage.css";
+import "./PresentationPage.css";
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Subtitle from "../Subtitle";
 import {
   faDrum,
   faHandPaper,
@@ -14,20 +15,21 @@ export function useWebSpeechAPI({ onResult }) {
   const [listening, setListening] = useState(false);
   const recognition = useRef(null);
 
-  const [interimText, setInterimText] = useState("");
-  const [recognizedText, setRecognizedText] = useState("");
+  const [interimText, setInterimText] = useState(""); 
+  const [recognizedText, setRecognizedText] = useState(""); 
 
-
+  
   useEffect(() => {
     // Check if the browser supports the Web Speech API
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition.current = new SpeechRecognition();
 
     // Enable continuous recognition and interim results (for real-time subtitles)
     recognition.current.continuous = true;
     recognition.current.interimResults = true;
     recognition.current.lang = 'en-US'; // Set recognition language to English
-
+  
     // Event listener for when the speech recognition gets results
     recognition.current.onresult = (event) => {
       // Transcript of the latest recognized result
@@ -36,14 +38,14 @@ export function useWebSpeechAPI({ onResult }) {
       // Variables to store final and interim transcripts separately
       let interimTranscript = '';
       let finalTranscript = '';
-
+  
       // Loop through the event results to separate interim and final transcripts
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
 
         // If the result is finalized (pause detected), add to finalTranscript
         if (event.results[i].isFinal) {
-          finalTranscript += transcript.trim() + ' '; // Sentence boundary detected
+          finalTranscript += transcript.trim() + " "; // Sentence boundary detected
         } else {
           interimTranscript += transcript; // Still processing (for real-time subtitles)
         }
@@ -60,7 +62,7 @@ export function useWebSpeechAPI({ onResult }) {
 
     // Handle speech recognition errors (e.g., no mic access)
     recognition.current.onerror = (event) => {
-      console.error('Speech recognition error', event);
+      console.error("Speech recognition error", event);
       setListening(false); // Stop listening on error
     };
 
@@ -91,7 +93,13 @@ function PresentationPage() {
   const [text, setText] = useState("");
   const [bulletPoints, setBulletPoints] = useState([]);
 
-  const { listening: webListening, interimText, recognizedText, start, stop } = useWebSpeechAPI({
+  const {
+    listening: webListening,
+    interimText,
+    recognizedText,
+    start,
+    stop,
+  } = useWebSpeechAPI({
     onResult: (result) => {
       setText((prevText) => (result.length >= 1 ? result + ' ' : ''));
     }
@@ -138,15 +146,11 @@ function PresentationPage() {
             How to Use <id id="logo">PRESENTIFY</id>
           </h2>
           <br></br>
-          <p>Presentations have never been easier.</p>
+          <p>This is a bullet point.</p>
           <br></br>
-          <p>Images, captions, and bullet points will generate as you speak.</p>
+          <p>This is also a bullet point.</p>
           <br></br>
-          <p>
-            Press your <b>left arrow</b> to go to your next bullet point. Press
-            your
-            <b> right arrow </b> key to clear a slide.{" "}
-          </p>
+          <p>This is yet another bullet point.</p>
           <br></br>
           <button onClick={start}>START PRESENTATION</button>
         </div>
@@ -162,22 +166,30 @@ function PresentationPage() {
           <span>Enable keyword sound effect queuing.</span>
           <ul>
             <li>
-              <span className="icon"><FontAwesomeIcon icon={faDrum} /></span>
+              <span className="icon">
+                <FontAwesomeIcon icon={faDrum} />
+              </span>
               <strong>“Drum roll Please”</strong>
               <p>Drum roll effect</p>
             </li>
             <li>
-              <span className="icon"><FontAwesomeIcon icon={faHandPaper} /></span>
+              <span className="icon">
+                <FontAwesomeIcon icon={faHandPaper} />
+              </span>
               <strong>“Thank You”</strong>
               <p>Clapping effect</p>
             </li>
             <li>
-              <span className="icon"><FontAwesomeIcon icon={faBug} /></span>
+              <span className="icon">
+                <FontAwesomeIcon icon={faBug} />
+              </span>
               <strong>“Crickets”</strong>
               <p>Cricket effect</p>
             </li>
             <li>
-              <span className="icon"><FontAwesomeIcon icon={faStar} /></span>
+              <span className="icon">
+                <FontAwesomeIcon icon={faStar} />
+              </span>
               <strong>“Yay”</strong>
               <p>Cheering effect</p>
             </li>
@@ -185,9 +197,7 @@ function PresentationPage() {
         </div>
       </div>
       <div className="live-subtitles">
-        <pre>
-          {recognizedText} {interimText}
-        </pre>
+        <Subtitle recognizedText={recognizedText} interimText={interimText} />
       </div>
       <a href="#" className="finish-presentation-link" onClick={stop}>
         FINISH PRESENTATION
