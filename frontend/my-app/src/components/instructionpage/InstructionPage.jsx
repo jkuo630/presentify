@@ -181,7 +181,6 @@ function InstructionPage() {
               </p>
               <br></br>
               <p>
-                Press your <b>left arrow</b> to go to your next bullet point.
                 Press your
                 <b> right arrow </b> key to clear a slide.{" "}
               </p>
@@ -255,8 +254,10 @@ function InstructionPage() {
             )}
             <ul className="bullet-points">
               {bulletPoints?.map((bullet, index) => (
-                  <li className="bullet-points" key={index}>{bullet}</li>
-                ))}
+                <li className="bullet-points" key={index}>
+                  {bullet}
+                </li>
+              ))}
             </ul>
           </div>
         </>
