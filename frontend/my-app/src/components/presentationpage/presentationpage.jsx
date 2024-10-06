@@ -1,96 +1,234 @@
-import "./PresentationPage.css";
-
+import "./presentationpage.css";
 import { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDrum,
+  faHandPaper,
+  faBug,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 
-const useSpeechRecognition = () => {
-  const [recognizedText, setRecognizedText] = useState("");
-  const [interimText, setInterimText] = useState("");
+let sentenceArray = [];
+
+export function useWebSpeechAPI({ onResult }) {
   const [listening, setListening] = useState(false);
   const recognition = useRef(null);
 
+  const [interimText, setInterimText] = useState("");
+  const [recognizedText, setRecognizedText] = useState("");
+
+
   useEffect(() => {
-    if (
-      !("webkitSpeechRecognition" in window || "SpeechRecognition" in window)
-    ) {
-      console.error("Speech Recognition not supported in this browser");
-      return;
-    }
-
-    const SpeechRecognition =
-      window.webkitSpeechRecognition || window.SpeechRecognition;
+    // Check if the browser supports the Web Speech API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition.current = new SpeechRecognition();
+
+    // Enable continuous recognition and interim results (for real-time subtitles)
     recognition.current.continuous = true;
-    recognition.current.interimResults = true; // Enable interim results
-    recognition.current.lang = "en-US";
+    recognition.current.interimResults = true;
+    recognition.current.lang = 'en-US'; // Set recognition language to English
 
+    // Event listener for when the speech recognition gets results
     recognition.current.onresult = (event) => {
-      let interimTranscript = "";
-      let finalTranscript = "";
+      // Transcript of the latest recognized result
+      const result = event.results[event.results.length - 1][0].transcript;
 
-      // Loop through results to handle interim and final results
+      // Variables to store final and interim transcripts separately
+      let interimTranscript = '';
+      let finalTranscript = '';
+
+      // Loop through the event results to separate interim and final transcripts
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
+
+        // If the result is finalized (pause detected), add to finalTranscript
         if (event.results[i].isFinal) {
-          finalTranscript += transcript.trim() + " ";
+          finalTranscript += transcript.trim() + ' '; // Sentence boundary detected
         } else {
-          interimTranscript += transcript;
+          interimTranscript += transcript; // Still processing (for real-time subtitles)
         }
       }
 
+      // Update state for real-time subtitles with interim results
       setInterimText(interimTranscript);
+      // Update state for final sentences (used to generate bullet points)
       setRecognizedText(finalTranscript);
+
+      // Callback to handle the finalized sentence (e.g., to send to backend or process)
+      onResult(finalTranscript);
     };
 
+    // Handle speech recognition errors (e.g., no mic access)
     recognition.current.onerror = (event) => {
-      console.error("Speech recognition error: ", event.error);
-      setListening(false);
+      console.error('Speech recognition error', event);
+      setListening(false); // Stop listening on error
     };
 
+    // Cleanup function to stop recognition when component unmounts
     return () => {
       recognition.current.stop();
     };
-  }, []);
+  }, []); // Empty dependency array to ensure this effect runs only once on component mount
 
-  const startListening = () => {
-    setListening(true);
-    recognition.current.start();
+  // Function to start speech recognition
+  const start = () => {
+    setListening(true); // Update state to indicate that listening has started
+    recognition.current.start(); // Start the Web Speech API
   };
 
-  const stopListening = () => {
-    setListening(false);
-    recognition.current.stop();
+  // Function to stop speech recognition
+  const stop = () => {
+    setListening(false); // Update state to indicate that listening has stopped
+    recognition.current.stop(); // Stop the Web Speech API
   };
 
-  return {
-    recognizedText,
-    interimText,
-    listening,
-    startListening,
-    stopListening,
-  };
-};
+  return { listening, interimText, recognizedText, start, stop }; // Return necessary variables and functions
+}
 
 function PresentationPage() {
-  const {
-    recognizedText,
-    interimText,
-    listening,
-    startListening,
-    stopListening,
-  } = useSpeechRecognition();
+  // const { recognizedText, interimText, startListening, stopListening } = useSpeechRecognition();
+  const [imageUrl, setImageUrl] = useState(null);
+  const [text, setText] = useState("");
+  const [bulletPoints, setBulletPoints] = useState([]);
+
+  const { listening: webListening, interimText, recognizedText, start, stop } = useWebSpeechAPI({
+    onResult: (result) => {
+      setText((prevText) => (result.length >= 1 ? result + ' ' : ''));
+    }
+  });
+
+  useEffect(() => {
+    fetchStuff({ words: text, bullets: bulletPoints });
+
+    // setBulletPoints
+    console.log(text);
+  }, [text, bulletPoints]);
+
+  async function fetchStuff(presentationInfo) {
+    try {
+      const data = await fetchHeaderAndBullet(presentationInfo);
+      setImageUrl(data.image);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }
+
+  const startBoth = () => {
+    // startListening();
+    start();
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={startListening}>Start Listening</button>
-        <p>{listening ? "Listening" : "Not Listening"}</p>
+    <div className="presentation-container">
+      <h1>PRESENTIFY</h1>
+      <div className="content">
+        {imageUrl?
+        <img
+        src={imageUrl}
+        width={300}
+        alt="Description of the image" // Always good to include an alt attribute
+      /> :
+      <div> </div>
+        }
+        
+        <div className="instructions">
+          <h2>
+            How to Use <id id="logo">PRESENTIFY</id>
+          </h2>
+          <br></br>
+          <p>Presentations have never been easier.</p>
+          <br></br>
+          <p>Images, captions, and bullet points will generate as you speak.</p>
+          <br></br>
+          <p>
+            Press your <b>left arrow</b> to go to your next bullet point. Press
+            your
+            <b> right arrow </b> key to clear a slide.{" "}
+          </p>
+          <br></br>
+          <button onClick={start}>START PRESENTATION</button>
+        </div>
+        <div className="sound-queues">
+          <h3>SOUND QUEUES</h3>
+          <br></br>
+          <div className="sound-queue-toggle">
+            <label className="switch">
+              <input type="checkbox" />
+              <span className="slider round"></span>
+            </label>
+          </div>
+          <span>Enable keyword sound effect queuing.</span>
+          <ul>
+            <li>
+              <span className="icon"><FontAwesomeIcon icon={faDrum} /></span>
+              <strong>“Drum roll Please”</strong>
+              <p>Drum roll effect</p>
+            </li>
+            <li>
+              <span className="icon"><FontAwesomeIcon icon={faHandPaper} /></span>
+              <strong>“Thank You”</strong>
+              <p>Clapping effect</p>
+            </li>
+            <li>
+              <span className="icon"><FontAwesomeIcon icon={faBug} /></span>
+              <strong>“Crickets”</strong>
+              <p>Cricket effect</p>
+            </li>
+            <li>
+              <span className="icon"><FontAwesomeIcon icon={faStar} /></span>
+              <strong>“Yay”</strong>
+              <p>Cheering effect</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="live-subtitles">
         <pre>
           {recognizedText} {interimText}
         </pre>
-        <button onClick={stopListening}>Stop Listening</button>
-      </header>
+      </div>
+      <a href="#" className="finish-presentation-link" onClick={stop}>
+        FINISH PRESENTATION
+      </a>
     </div>
   );
 }
 
+async function fetchHeaderAndBullet(presentationInfo) {
+  if (presentationInfo.words) {
+    console.log("fetching");
+    sentenceArray.push(presentationInfo.words);
+
+    const textJson = { id: sentenceArray.length, words: presentationInfo.words, bullets: presentationInfo.bullets };
+    
+    try {
+      const response = await fetch("http://localhost:8000/words", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(textJson)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const jsonResponse = await response.json();
+      console.log("response received");
+      console.log(jsonResponse);
+      return jsonResponse; // Return the response
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error; // Re-throw the error if needed
+    }
+  } else {
+    console.warn("No text provided");
+    throw new Error("No text provided"); // Throw an error if no text
+  }
+}
+
 export default PresentationPage;
+

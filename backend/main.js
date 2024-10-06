@@ -8,6 +8,7 @@ export async function ImageDisplay(query) {
     }
 
     try {
+        console.log("arrived at image");
         const response = await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=1`, {
             method: 'GET',
             headers: {
@@ -19,7 +20,7 @@ export async function ImageDisplay(query) {
 
         if (data.photos && data.photos.length > 0) {
             const firstPhoto = data.photos[0]; // Get the first photo
-            const url = firstPhoto.src.original; // Get the original image link
+            const url = firstPhoto.src.medium; // Get the original image link
             console.log('Image Link:', url);
             return url; // Return the URL of the image
         } else {
