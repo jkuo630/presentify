@@ -216,3 +216,29 @@ h1 {
 .finish-presentation-link:hover {
   background-color: #555;
 }
+
+.presentation-container {
+  padding: 20px;
+}
+
+.middle-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 68px 0;
+}
+
+.presentation-image {
+  width: 800px;
+  margin-right: 50px;
+}
+
+.bullet-points {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.bullet-points li {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
