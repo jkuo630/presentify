@@ -139,7 +139,7 @@ function InstructionPage() {
       if (data.image !== "marcuskam") {
         setImageUrl(data.image);
       }
-      setBulletPoints([data.bullets]);
+      setBulletPoints(data.bullets);
     } catch (error) {
       console.error(error);
     }
@@ -256,10 +256,8 @@ function InstructionPage() {
               :
               <div></div>}
             <ul className="bullet-points">
-              {bulletPoints
-                .slice(0, currentBulletIndex + 1)
-                .map((bullet, index) => (
-                  <li key={index}>{bullet}</li>
+              {bulletPoints?.map((bullet, index) => (
+                  <li className="bullet-points" key={index}>{bullet}</li>
                 ))}
             </ul>
           </div>
