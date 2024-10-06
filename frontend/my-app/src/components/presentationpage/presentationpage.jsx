@@ -91,7 +91,7 @@ function PresentationPage() {
   // const { recognizedText, interimText, startListening, stopListening } = useSpeechRecognition();
   const [imageUrl, setImageUrl] = useState(null);
   const [text, setText] = useState("");
-  const [bulletPoints, setBulletPoints] = useState(["First One"]);
+  const [bulletPoints, setBulletPoints] = useState([]);
 
   const {
     listening: webListening,
@@ -137,11 +137,7 @@ function PresentationPage() {
       if (data.image !== "marcuskam") {
         setImageUrl(data.image);
       }
-      if (!bulletPoints.includes(data.bullet)) {
-        setBulletPoints([...bulletPoints, data.bullet]);
-      }
-      console.log(bulletPoints);
-      console.log(data);
+      setBulletPoints([data.bullets]);
     } catch (error) {
       console.error(error);
     }
@@ -172,7 +168,7 @@ function PresentationPage() {
           <br></br>
           <ul>
             {bulletPoints?.map((point, index) => (
-              <li key={index}>{point}</li>
+              <li key={index}>{index} {point}</li>
             ))}
           </ul>
           <p>This is a bullet point.</p>
@@ -243,12 +239,12 @@ async function clearStates() {
         "Content-Type": "application/json" // Not strictly necessary for GET requests
       }
     });
-  
+
     // Check if the response is ok (status code 200-299)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-  
+
     const data = await response.json(); // Assuming the response is JSON
     console.log(data); // Process the response data as needed
   } catch (error) {

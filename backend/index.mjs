@@ -32,7 +32,7 @@ app.get("/clear", (req, res) => {
   totalBullets = [...totalBullets, ...bullet];
   bullet = [];
   prevImage = "";
-  res.send("Cleared States");
+  res.send("OK");
 });
 
 app.post("/words", async (req, res) => {
