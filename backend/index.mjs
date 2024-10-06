@@ -2,11 +2,9 @@
 import express from 'express';
 import dotenv from 'dotenv'; // Import dotenv for environment variables
 import { ImageDisplay } from './main.mjs'; // Adjust the path to your file
-import { generatePrompt } from './chat.mjs';
+import { generatePrompt, generateSummary } from './chat.mjs';
 import cors from 'cors'; // Import cors for enabling CORS
 import OpenAI from 'openai'; // Import 
-
-// Save 
 
 // Load environment variables from .env
 dotenv.config(); 
@@ -64,6 +62,11 @@ app.post("/words", async (req, res) => {
     console.error('Error in /words route:', error);
     res.status(500).send(`Error fetching image: ${error.message}`); // Send an error response
   }
+});
+
+// Summary feature
+app.get("/summary", (req, res) => {
+  res.json(generateSummary(totalBullets));
 });
 
 // Simple POST route
