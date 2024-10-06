@@ -1,4 +1,4 @@
-import LandingPage from './components/LandingPage/LandingPage';
+import LandingPage from "./components/landingpage/landingpage"
 
 function App() {
   return (
