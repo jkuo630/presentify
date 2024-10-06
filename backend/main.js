@@ -1,6 +1,6 @@
 // Load environment variables from .env file
 export async function ImageDisplay(query) {
-    const API_KEY = process.env.API_KEY;
+    const API_KEY = process.env.IMAGE_API_KEY;
 
     if (!API_KEY) {
         console.error('API_KEY is not defined. Please check your .env file.');

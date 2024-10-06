@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv'; // Import dotenv for environment variables
 import { ImageDisplay } from './main.js'; // Adjust the path to your file
+import { imagePrompt, bulletPrompt } from './chat.mjs';
 import cors from 'cors'; // Import cors for enabling CORS
 import OpenAI from 'openai'; // Import OpenAI
 
@@ -21,13 +22,17 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.get("/image", async (req, res) => {
+app.post("/words", async (req, res) => {
   try {
-      const imageUrl = await ImageDisplay("jason"); // Call the async function and await the result
-      res.send(imageUrl); // Send the image URL back as the response
+    const wordsAndBullets = req.body;
+    const gpt = json.parse(await generatePrompt(wordsAndBullets));
+    const image = await ImageDisplay(gpt.image);
+    gpt.image = image;
+
+    res.json(gpt); // Send the json back
   } catch (error) {
-      console.error('Error in /image route:', error);
-      res.status(500).send('Error fetching image'); // Send an error response
+    console.error('Error in /words route:', error);
+    res.status(500).send('Error fetching image'); // Send an error response
   }
 });
 
