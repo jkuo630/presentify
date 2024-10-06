@@ -1,0 +1,218 @@
+* {
+  font-family: Helvetica;
+}
+.presentation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #222; /* Dark background */
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.toggle-button {
+  margin-right: auto; /* Push the title to the center */
+}
+
+.microphone-indicator {
+  margin-left: auto; /* Push the microphone indicator to the right */
+}
+
+.content {
+  display: flex; /* Flexbox to arrange instructions and sound queues in a row */
+  justify-content: space-between; /* Space between two sections */
+  width: 40%; /* Set a maximum width */
+  margin: 150px 0; /* Margin for spacing */
+}
+
+.instructions {
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  border-radius: 10px;
+  padding: 20px; /* Padding inside boxes */
+  width: 40%; /* Set a width for the boxes */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+}
+
+.instructions h2 {
+  margin-bottom: 10px; /* Space below headers */
+  text-align: center;
+}
+
+.sound-queues {
+  background-color: #ffffff; /* White background */
+  border-radius: 10px;
+  padding: 20px; /* Padding inside boxes */
+  width: 45%; /* Width for the box */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+  text-align: center;
+}
+
+.sound-queues h3 {
+  text-align: center;
+}
+
+.sound-queue-toggle {
+  display: flex;
+  justify-content: space-between; /* Space between text and toggle switch */
+  align-items: center; /* Align items vertically */
+  margin-bottom: 20px; /* Space below the toggle */
+  margin-left: 130px;
+}
+
+.sound-queue-toggle span {
+  font-size: 14px; /* Font size for the toggle text */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* Background color for the switch */
+  transition: 0.4s;
+  border-radius: 34px; /* Rounded corners for switch */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white; /* White toggle knob */
+  border-radius: 50%; /* Rounded toggle knob */
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3; /* Color when checked */
+}
+
+input:checked + .slider:before {
+  transform: translateX(14px); /* Move toggle knob when checked */
+}
+
+.sound-queues {
+  color: black;
+}
+
+.sound-queues ul {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0;
+}
+
+.sound-queues li {
+  background-color: rgba(
+    240,
+    240,
+    240,
+    0.7
+  ); /* Light gray background for items */
+  padding: 10px;
+  margin: 10px 0; /* Space between items */
+  border-radius: 5px; /* Rounded corners for items */
+  display: flex;
+  align-items: center; /* Align items in a row */
+}
+
+.sound-queues li .icon {
+  width: 24px; /* Width for icons */
+  height: 24px; /* Height for icons */
+  margin-right: 10px; /* Space between icon and text */
+}
+
+.sound-queues li strong {
+  font-size: 16px; /* Font size for item titles */
+  margin-right: auto; /* Pushes the description to the right */
+}
+
+.sound-queues li p {
+  font-size: 12px; /* Font size for descriptions */
+  margin: 0; /* Remove margin for descriptions */
+}
+
+.live-subtitles {
+  margin: 80px;
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  width: 80%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  margin-left: 40px;
+  color: black;
+  border: none;
+  cursor: pointer;
+  border-radius: 30px;
+  background: #f0f0f0;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+button:hover {
+  background-color: grey; /* Darker blue on hover */
+}
+
+h1 {
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  background: linear-gradient(90deg, #fff 0%, #999 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#logo {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  background: linear-gradient(90deg, #fff 0%, #999 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.finish-presentation-link {
+  color: #fff;
+  font-family: Helvetica;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-decoration-line: underline;
+}
+
+.finish-presentation-link:hover {
+  background-color: #555;
+}
