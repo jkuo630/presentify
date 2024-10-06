@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import InstructionPage from "./components/instructionpage/InstructionPage"
+import InstructionPage from "./components/InstructionPage/InstructionPage"
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import PresentationPage from "./components/presentationpage/presentationpage";
+import PresentationPage from "./components/PresentationPage/PresentationPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
