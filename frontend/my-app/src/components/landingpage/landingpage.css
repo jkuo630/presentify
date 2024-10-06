@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica;
+    font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+  }
+  :root {
+    --primary: #747474;
+    --black: #000000;
+    --white: #fff;
+    --gradiant--light: #F0F0F0;
+    --gradiant--dark: #666666;
+  }
+  .landing-header {
+    background: linear-gradient(90deg, #000 0%, #666 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: Helvetica;
+    font-size: 4rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  .landing-body {
+    color: #747474;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.3rem;
+}
+
+/* FULL CONTAINER */
+.landing-container {
+    height: 100vh;
+    background: linear-gradient(180deg, #000 0%, #A2A2A2 177.78%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+}
+
+.overlay-image {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url(./img/spotlight.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 45% 80%;
+}
+
+.landing-logo-text {
+    position: absolute;
+    top: 52%;
+}
+
+.next-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: F0F0F0;
+    border: none;
+    color: #2D2D2D;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: underline;
+    border-radius: 1.875rem;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25) inset;
+    width: 7rem;
+    height: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 90%;
+    right: 46%;
+}
+
