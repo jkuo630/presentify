@@ -14,6 +14,7 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/instructionpage" element={<InstructionPage />} />
       <Route path="/presentationpage" element={<PresentationPage />} />
+      <Route path="/endingpage" element={<EndingPage />} />
     </Routes>
   </Router>
 );

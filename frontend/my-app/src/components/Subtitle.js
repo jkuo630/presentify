@@ -20,22 +20,22 @@ function Subtitle(props) {
       audio.play().catch((error) => {
           console.error("Error playing audio:", error);
       });
-  }
-  if (props.recognizedText.includes("thank you")) {
-    console.log("Playing audio");
-    const audio = new Audio(clappingSound);
-    audio.play().catch((error) => {
+    }
+    if (props.recognizedText.includes("thank you")) {
+      console.log("Playing audio");
+      const audio = new Audio(clappingSound);
+      audio.play().catch((error) => {
         console.error("Error playing audio:", error);
-    });
-  }
-  if (props.recognizedText.includes("drum roll please")) {
-    console.log("Playing audio");
-    const audio = new Audio(drumrollSound);
-    audio.play().catch((error) => {
-      console.error("Error playing audio:", error);
-    });
-  }
-}, [props.recognizedText]); // Depend on recognizedText
+      });
+    }
+    if (props.recognizedText.includes("drum roll please")) {
+      console.log("Playing audio");
+      const audio = new Audio(drumrollSound);
+      audio.play().catch((error) => {
+        console.error("Error playing audio:", error);
+      });
+    }
+  }, [props.recognizedText]); // Depend on recognizedText
 
   return (
     <div className="container">

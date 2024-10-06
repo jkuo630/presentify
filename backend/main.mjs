@@ -10,7 +10,6 @@ export async function ImageDisplay(query) {
     }
 
     try {
-        console.log("arrived at image");
         const response = await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=1`, {
             method: 'GET',
             headers: {
