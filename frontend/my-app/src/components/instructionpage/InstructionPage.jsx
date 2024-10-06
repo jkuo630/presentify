@@ -1,4 +1,4 @@
-import "./instructionpage.css";
+import "./InstructionPage.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,6 +8,7 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
+import Subtitle from "../Subtitle";
 
 const useSpeechRecognition = () => {
   const [recognizedText, setRecognizedText] = useState("");
@@ -185,30 +186,37 @@ function InstructionPage() {
         </>
       )}
       {presentationStarted && (
-        <div className="middle-row">
-          <img
-            src="https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png"
-            alt="Presentation"
-            className="presentation-image"
-          />
-          <ul className="bullet-points">
-            {bulletPoints
-              .slice(0, currentBulletIndex + 1)
-              .map((bullet, index) => (
-                <li key={index}>{bullet}</li>
-              ))}
-          </ul>
-        </div>
+        <>
+          <h1>PRESENTIFY</h1>
+          <div className="middle-row">
+            <img
+              src="https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png"
+              alt="Presentation"
+              className="presentation-image"
+            />
+            <ul className="bullet-points">
+              {bulletPoints
+                .slice(0, currentBulletIndex + 1)
+                .map((bullet, index) => (
+                  <li key={index}>{bullet}</li>
+                ))}
+            </ul>
+          </div>
+        </>
       )}
 
       <div className="live-subtitles">
-        <pre>
-          {recognizedText} {interimText}
-        </pre>
+        <Subtitle recognizedText={recognizedText} interimText={interimText} />
       </div>
-      <a href="#" className="finish-presentation-link" onClick={stopListening}>
-        FINISH PRESENTATION
-      </a>
+      <Link to="/EndingPage">
+        <a
+          href="#"
+          className="finish-presentation-link"
+          onClick={stopListening}
+        >
+          FINISH PRESENTATION
+        </a>
+      </Link>
     </div>
   );
 }
