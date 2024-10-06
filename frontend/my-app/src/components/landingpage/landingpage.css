@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5, h6, p {
     --gradiant--light: #F0F0F0;
     --gradiant--dark: #666666;
   }
-  h1 {
+  .landing-header {
     background: linear-gradient(90deg, #000 0%, #666 100%);
     background-clip: text;
     -webkit-background-clip: text;
@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6, p {
     font-weight: 700;
     line-height: normal;
   }
-  h2{
+  .landing-body {
     color: #747474;
     text-align: center;
     font-family: Helvetica;
