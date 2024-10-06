@@ -1,4 +1,4 @@
-import "./PresentationPage.css";
+import "./presentationpage.css";
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Subtitle from "../Subtitle";
@@ -15,10 +15,10 @@ export function useWebSpeechAPI({ onResult }) {
   const [listening, setListening] = useState(false);
   const recognition = useRef(null);
 
-  const [interimText, setInterimText] = useState(""); 
-  const [recognizedText, setRecognizedText] = useState(""); 
+  const [interimText, setInterimText] = useState("");
+  const [recognizedText, setRecognizedText] = useState("");
 
-  
+
   useEffect(() => {
     // Check if the browser supports the Web Speech API
     const SpeechRecognition =
@@ -29,7 +29,7 @@ export function useWebSpeechAPI({ onResult }) {
     recognition.current.continuous = true;
     recognition.current.interimResults = true;
     recognition.current.lang = 'en-US'; // Set recognition language to English
-  
+
     // Event listener for when the speech recognition gets results
     recognition.current.onresult = (event) => {
       // Transcript of the latest recognized result
@@ -38,7 +38,7 @@ export function useWebSpeechAPI({ onResult }) {
       // Variables to store final and interim transcripts separately
       let interimTranscript = '';
       let finalTranscript = '';
-  
+
       // Loop through the event results to separate interim and final transcripts
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
@@ -91,7 +91,7 @@ function PresentationPage() {
   // const { recognizedText, interimText, startListening, stopListening } = useSpeechRecognition();
   const [imageUrl, setImageUrl] = useState(null);
   const [text, setText] = useState("");
-  const [bulletPoints, setBulletPoints] = useState([]);
+  const [bulletPoints, setBulletPoints] = useState(["First One"]);
 
   const {
     listening: webListening,
@@ -107,24 +107,48 @@ function PresentationPage() {
 
   useEffect(() => {
     fetchStuff({ words: text, bullets: bulletPoints });
-
     // setBulletPoints
     console.log(text);
-  }, [text, bulletPoints]);
+    // Function to handle the keydown event
+    const handleKeyDown = (event) => {
+      // Check if the right arrow key (keyCode 39) is pressed
+      if (event.keyCode === 39) {
+        clearStates();
+        // Clear the imageUrl and bulletPoints when right arrow key is pressed
+        setImageUrl(null); // Reset imageUrl to null
+        setBulletPoints([]); // Reset bulletPoints to an empty array
+
+        console.log("Right arrow key pressed. Image and bullets cleared.");
+      }
+    };
+
+    // Attach the event listener
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [text]);
 
   async function fetchStuff(presentationInfo) {
     try {
       const data = await fetchHeaderAndBullet(presentationInfo);
-      setImageUrl(data.image);
+      if (data.image !== "marcuskam") {
+        setImageUrl(data.image);
+      }
+      if (!bulletPoints.includes(data.bullet)) {
+        setBulletPoints([...bulletPoints, data.bullet]);
+      }
+      console.log(bulletPoints);
       console.log(data);
     } catch (error) {
       console.error(error);
     }
-    
+
   }
 
   const startBoth = () => {
-    // startListening();
     start();
   };
 
@@ -132,20 +156,25 @@ function PresentationPage() {
     <div className="presentation-container">
       <h1>PRESENTIFY</h1>
       <div className="content">
-        {imageUrl?
-        <img
-        src={imageUrl}
-        width={300}
-        alt="Description of the image" // Always good to include an alt attribute
-      /> :
-      <div> </div>
+        {imageUrl ?
+          <img
+            src={imageUrl}
+            width={300}
+            alt="Description" // Always good to include an alt attribute
+          /> :
+          <div> </div>
         }
-        
+
         <div className="instructions">
           <h2>
             How to Use <id id="logo">PRESENTIFY</id>
           </h2>
           <br></br>
+          <ul>
+            {bulletPoints?.map((point, index) => (
+              <li key={index}>{point}</li>
+            ))}
+          </ul>
           <p>This is a bullet point.</p>
           <br></br>
           <p>This is also a bullet point.</p>
@@ -206,13 +235,34 @@ function PresentationPage() {
   );
 }
 
+async function clearStates() {
+  try {
+    const response = await fetch("http://localhost:8000/clear", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json" // Not strictly necessary for GET requests
+      }
+    });
+  
+    // Check if the response is ok (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    const data = await response.json(); // Assuming the response is JSON
+    console.log(data); // Process the response data as needed
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
 async function fetchHeaderAndBullet(presentationInfo) {
   if (presentationInfo.words) {
     console.log("fetching");
     sentenceArray.push(presentationInfo.words);
 
     const textJson = { id: sentenceArray.length, words: presentationInfo.words, bullets: presentationInfo.bullets };
-    
+
     try {
       const response = await fetch("http://localhost:8000/words", {
         method: "POST",
