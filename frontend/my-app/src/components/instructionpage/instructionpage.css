@@ -163,6 +163,8 @@ input:checked + .slider:before {
   width: 80%;
   text-align: center;
   margin-bottom: 30px;
+  position: absolute;
+  top: 725px;
 }
 
 button {
@@ -211,6 +213,9 @@ h1 {
   font-weight: 700;
   line-height: normal;
   text-decoration-line: underline;
+  position: absolute;
+  top: 900px;
+  left: 750px;
 }
 
 .finish-presentation-link:hover {

@@ -1,5 +1,5 @@
 import React from "react";
-import "./endingpage.css";
+import "./EndingPage.css";
 import { Link } from "react-router-dom";
 
 const EndingPage = () => {
@@ -19,7 +19,16 @@ const EndingPage = () => {
         </Link>
       </div>
       <div className="right-side">
-        <div className="overlay-image"></div>
+        <div className="overlay-image">
+          <div className="summary">
+            <h3>Summary</h3>
+            <ul>
+              <li>This is a bullet point</li>
+              <li>This is another bullet point</li>
+              <li>This is yet another bullet point</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
