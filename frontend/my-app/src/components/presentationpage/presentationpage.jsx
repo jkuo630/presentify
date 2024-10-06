@@ -15,9 +15,10 @@ export function useWebSpeechAPI({ onResult }) {
   const [listening, setListening] = useState(false);
   const recognition = useRef(null);
 
-  const [interimText, setInterimText] = useState("");
-  const [recognizedText, setRecognizedText] = useState("");
+  const [interimText, setInterimText] = useState(""); 
+  const [recognizedText, setRecognizedText] = useState(""); 
 
+  
   useEffect(() => {
     // Check if the browser supports the Web Speech API
     const SpeechRecognition =
@@ -27,17 +28,17 @@ export function useWebSpeechAPI({ onResult }) {
     // Enable continuous recognition and interim results (for real-time subtitles)
     recognition.current.continuous = true;
     recognition.current.interimResults = true;
-    recognition.current.lang = "en-US"; // Set recognition language to English
-
+    recognition.current.lang = 'en-US'; // Set recognition language to English
+  
     // Event listener for when the speech recognition gets results
     recognition.current.onresult = (event) => {
       // Transcript of the latest recognized result
       const result = event.results[event.results.length - 1][0].transcript;
 
       // Variables to store final and interim transcripts separately
-      let interimTranscript = "";
-      let finalTranscript = "";
-
+      let interimTranscript = '';
+      let finalTranscript = '';
+  
       // Loop through the event results to separate interim and final transcripts
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
@@ -88,7 +89,7 @@ export function useWebSpeechAPI({ onResult }) {
 
 function PresentationPage() {
   // const { recognizedText, interimText, startListening, stopListening } = useSpeechRecognition();
-
+  const [imageUrl, setImageUrl] = useState(null);
   const [text, setText] = useState("");
   const [bulletPoints, setBulletPoints] = useState([]);
 
@@ -100,17 +101,27 @@ function PresentationPage() {
     stop,
   } = useWebSpeechAPI({
     onResult: (result) => {
-      setText(
-        (prevText) => prevText + (result.length >= 1 ? result + " " : "")
-      );
-    },
+      setText((prevText) => (result.length >= 1 ? result + ' ' : ''));
+    }
   });
 
   useEffect(() => {
-    fetchHeaderAndBullet({ words: text, bullets: bulletPoints });
+    fetchStuff({ words: text, bullets: bulletPoints });
+
     // setBulletPoints
     console.log(text);
   }, [text, bulletPoints]);
+
+  async function fetchStuff(presentationInfo) {
+    try {
+      const data = await fetchHeaderAndBullet(presentationInfo);
+      setImageUrl(data.image);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }
 
   const startBoth = () => {
     // startListening();
@@ -121,6 +132,15 @@ function PresentationPage() {
     <div className="presentation-container">
       <h1>PRESENTIFY</h1>
       <div className="content">
+        {imageUrl?
+        <img
+        src={imageUrl}
+        width={300}
+        alt="Description of the image" // Always good to include an alt attribute
+      /> :
+      <div> </div>
+        }
+        
         <div className="instructions">
           <h2>
             How to Use <id id="logo">PRESENTIFY</id>
@@ -186,38 +206,39 @@ function PresentationPage() {
   );
 }
 
-function fetchHeaderAndBullet(presentationInfo) {
+async function fetchHeaderAndBullet(presentationInfo) {
   if (presentationInfo.words) {
     console.log("fetching");
     sentenceArray.push(presentationInfo.words);
 
-    const textJson = {
-      id: sentenceArray.length,
-      words: presentationInfo.words,
-      bullets: presentationInfo.bullets,
-    };
-    fetch("http://localhost:8000/words", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(textJson),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((jsonResponse) => {
-        console.log(jsonResponse);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
+    const textJson = { id: sentenceArray.length, words: presentationInfo.words, bullets: presentationInfo.bullets };
+    
+    try {
+      const response = await fetch("http://localhost:8000/words", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(textJson)
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const jsonResponse = await response.json();
+      console.log("response received");
+      console.log(jsonResponse);
+      return jsonResponse; // Return the response
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error; // Re-throw the error if needed
+    }
   } else {
     console.warn("No text provided");
+    throw new Error("No text provided"); // Throw an error if no text
   }
 }
 
 export default PresentationPage;
+

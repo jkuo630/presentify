@@ -4,8 +4,8 @@ function App() {
   return (
     <div>
       <LandingPage />
-    </div>
-  );
+      </div>
+      );
 }
 
-export default App;
+      export default App;
