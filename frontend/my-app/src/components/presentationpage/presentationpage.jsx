@@ -1,6 +1,12 @@
 import "./PresentationPage.css";
-
 import { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDrum,
+  faHandPaper,
+  faBug,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 
 const useSpeechRecognition = () => {
   const [recognizedText, setRecognizedText] = useState("");
@@ -20,14 +26,13 @@ const useSpeechRecognition = () => {
       window.webkitSpeechRecognition || window.SpeechRecognition;
     recognition.current = new SpeechRecognition();
     recognition.current.continuous = true;
-    recognition.current.interimResults = true; // Enable interim results
+    recognition.current.interimResults = true;
     recognition.current.lang = "en-US";
 
     recognition.current.onresult = (event) => {
       let interimTranscript = "";
       let finalTranscript = "";
 
-      // Loop through results to handle interim and final results
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
@@ -71,24 +76,77 @@ const useSpeechRecognition = () => {
 };
 
 function PresentationPage() {
-  const {
-    recognizedText,
-    interimText,
-    listening,
-    startListening,
-    stopListening,
-  } = useSpeechRecognition();
+  const { recognizedText, interimText, startListening, stopListening } =
+    useSpeechRecognition();
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={startListening}>Start Listening</button>
-        <p>{listening ? "Listening" : "Not Listening"}</p>
+    <div className="presentation-container">
+      <h1>PRESENTIFY</h1>
+
+      <div className="content">
+        <div className="instructions">
+          <h2>
+            How to Use <id id="logo">PRESENTIFY</id>
+          </h2>
+          <p>Presentations have never been easier.</p>
+          <p>Images, captions, and bullet points will generate as you speak.</p>
+          <p>
+            Press your left arrow to go to your next bullet point. Press your
+            right arrow key to clear a slide.{" "}
+          </p>
+          <button onClick={startListening}>START PRESENTATION</button>
+        </div>
+
+        <div className="sound-queues">
+          <h3>SOUND QUEUES</h3>
+          <div className="sound-queue-toggle">
+            <label className="switch">
+              <input type="checkbox" />
+              <span className="slider round"></span>
+            </label>
+          </div>
+          <span>Enable keyword sound effect queuing.</span>
+          <ul>
+            <li>
+              <span className="icon">
+                <FontAwesomeIcon icon={faDrum} />
+              </span>
+              <strong>“Drum roll Please”</strong>
+              <p>Drum roll effect</p>
+            </li>
+            <li>
+              <span className="icon">
+                <FontAwesomeIcon icon={faHandPaper} />
+              </span>
+              <strong>“Thank You”</strong>
+              <p>Clapping effect</p>
+            </li>
+            <li>
+              <span className="icon">
+                <FontAwesomeIcon icon={faBug} />
+              </span>
+              <strong>“Crickets”</strong>
+              <p>Cricket effect</p>
+            </li>
+            <li>
+              <span className="icon">
+                <FontAwesomeIcon icon={faStar} />
+              </span>
+              <strong>“Yay”</strong>
+              <p>Cheering effect</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="live-subtitles">
         <pre>
           {recognizedText} {interimText}
         </pre>
-        <button onClick={stopListening}>Stop Listening</button>
-      </header>
+      </div>
+      <a href="#" className="finish-presentation-link" onClick={stopListening}>
+        FINISH PRESENTATION
+      </a>
     </div>
   );
 }
