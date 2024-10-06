@@ -1,22 +1,19 @@
 import React from "react";
-import "./landing.css";
+import "./LandingPage.css";
+import { Link } from "react-router-dom";
 
-const landingpage = () => {
-    return (
-      <div>
-      <BackgroundOverlay />
-        <Mascot />
+const LandingPage = () => {
+  return (
+    <div>
       <div className="landing-container">
-        <h1 className="landing-header">TimeCapsules</h1>
-        <div className="landing-body">
-        Take your capsules on time. Using Computer Vision and AI to innovate how we take medication.
-        </div>
-        <Link to="/LoginForm">
+        <h1 className="landing-header">Title</h1>
+        <div className="landing-body">Text </div>
+        <Link to="/PresentationPage">
           <button type="submit">Start</button>
         </Link>
       </div>
-      </div>
-    );
-  };
-  
-  export default LandingPage;
+    </div>
+  );
+};
+
+export default LandingPage;

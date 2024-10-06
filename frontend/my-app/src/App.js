@@ -1,3 +1,4 @@
+import LandingPage from './components/LandingPage/LandingPage';
 import './App.css';
 import ImageDisplay from './components/Image';
 import Subtitle from './components/Subtitle';
@@ -66,20 +67,20 @@ const useSpeechRecognition = () => {
 
 
 function App() {
-
-  const {recognizedText, interimText, listening, startListening, stopListening} = useSpeechRecognition();
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={startListening}>Start Listening</button>
-        <p>{listening ? 'Listening' : "Not Listening"}</p>
-        <Subtitle recognizedText={recognizedText} interimText={interimText} />
-        <button onClick={stopListening}>Stop Listening</button>
-      </header>
-      <ImageDisplay />
-    </div>
-  );
+    <div>
+      <LandingPage />
+      <div className="App">
+        <header className="App-header">
+          <button onClick={startListening}>Start Listening</button>
+          <p>{listening ? 'Listening' : "Not Listening"}</p>
+          <Subtitle recognizedText={recognizedText} interimText={interimText} />
+          <button onClick={stopListening}>Stop Listening</button>
+        </header>
+        <ImageDisplay />
+      </div>
+      </div>
+      );
 }
 
-export default App;
+      export default App;
