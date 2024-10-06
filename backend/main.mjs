@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';  // Add this at the top
+
 // Load environment variables from .env file
 export async function ImageDisplay(query) {
     const API_KEY = process.env.IMAGE_API_KEY;

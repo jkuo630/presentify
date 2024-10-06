@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv'; // Import dotenv for environment variables
-import { ImageDisplay } from './main.js'; // Adjust the path to your file
+import { ImageDisplay } from './main.mjs'; // Adjust the path to your file
 import { generatePrompt } from './chat.mjs';
 import cors from 'cors'; // Import cors for enabling CORS
 import OpenAI from 'openai'; // Import 
@@ -25,6 +25,14 @@ app.use(cors());
 // Simple GET route
 app.get("/", (req, res) => {
   res.send("Hello, World!");
+});
+
+// Simple GET route
+app.get("/clear", (req, res) => {
+  totalBullets = [...totalBullets, ...bullet];
+  bullet = [];
+  prevImage = "";
+  res.send("Cleared States");
 });
 
 app.post("/words", async (req, res) => {
