@@ -1,7 +1,5 @@
 // Load environment variables from .env file
-require('dotenv').config();
-
-function ImageDisplay(query) {
+export async function ImageDisplay(query) {
     const API_KEY = process.env.API_KEY;
 
     if (!API_KEY) {
@@ -9,30 +7,61 @@ function ImageDisplay(query) {
         return;
     }
 
-    fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=1`, {
-        method: 'GET',
-        headers: {
-            'Authorization': API_KEY
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
+    try {
+        const response = await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=1`, {
+            method: 'GET',
+            headers: {
+                'Authorization': API_KEY
+            }
+        });
+
+        const data = await response.json();
+
         if (data.photos && data.photos.length > 0) {
             const firstPhoto = data.photos[0]; // Get the first photo
             const url = firstPhoto.src.original; // Get the original image link
             console.log('Image Link:', url);
-            app.get('/api/imageLink', (req, res) => {
-                res.send(url);
-            });
-            return url;
+            return url; // Return the URL of the image
         } else {
             console.log('No photos found.');
         }
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error fetching images:', error);
-    });
+    }
 }
+
+
+// require('dotenv').config();
+
+// export function ImageDisplay(query) {
+//     const API_KEY = process.env.API_KEY;
+
+//     if (!API_KEY) {
+//         console.error('API_KEY is not defined. Please check your .env file.');
+//         return;
+//     }
+
+//     fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=1`, {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': API_KEY
+//         }
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.photos && data.photos.length > 0) {
+//             const firstPhoto = data.photos[0]; // Get the first photo
+//             const url = firstPhoto.src.original; // Get the original image link
+//             console.log('Image Link:', url);
+//             return url;
+//         } else {
+//             console.log('No photos found.');
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error fetching images:', error);
+//     });
+// }
 
 /*
 PYTHON CODE
