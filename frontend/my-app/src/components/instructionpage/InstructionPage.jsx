@@ -1,4 +1,4 @@
-import "./instructionpage.css";
+import "./InstructionPage.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,7 +19,6 @@ export function useWebSpeechAPI({ onResult }) {
   const [interimText, setInterimText] = useState("");
   const [recognizedText, setRecognizedText] = useState("");
 
-
   useEffect(() => {
     // Check if the browser supports the Web Speech API
     const SpeechRecognition =
@@ -29,7 +28,7 @@ export function useWebSpeechAPI({ onResult }) {
     // Enable continuous recognition and interim results (for real-time subtitles)
     recognition.current.continuous = true;
     recognition.current.interimResults = true;
-    recognition.current.lang = 'en-US'; // Set recognition language to English
+    recognition.current.lang = "en-US"; // Set recognition language to English
 
     // Event listener for when the speech recognition gets results
     recognition.current.onresult = (event) => {
@@ -37,8 +36,8 @@ export function useWebSpeechAPI({ onResult }) {
       const result = event.results[event.results.length - 1][0].transcript;
 
       // Variables to store final and interim transcripts separately
-      let interimTranscript = '';
-      let finalTranscript = '';
+      let interimTranscript = "";
+      let finalTranscript = "";
 
       // Loop through the event results to separate interim and final transcripts
       for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -88,7 +87,6 @@ export function useWebSpeechAPI({ onResult }) {
   return { listening, interimText, recognizedText, start, stop }; // Return necessary variables and functions
 }
 
-
 function InstructionPage() {
   // const { recognizedText, interimText, startListening, stopListening } = useSpeechRecognition();
   const [imageUrl, setImageUrl] = useState(null);
@@ -103,8 +101,8 @@ function InstructionPage() {
     stop,
   } = useWebSpeechAPI({
     onResult: (result) => {
-      setText((prevText) => (result.length >= 1 ? result + ' ' : ''));
-    }
+      setText((prevText) => (result.length >= 1 ? result + " " : ""));
+    },
   });
 
   useEffect(() => {
@@ -143,7 +141,6 @@ function InstructionPage() {
     } catch (error) {
       console.error(error);
     }
-
   }
 
   const [presentationStarted, setPresentationStarted] = useState(false);
@@ -247,14 +244,15 @@ function InstructionPage() {
         <>
           <h1>PRESENTIFY</h1>
           <div className="middle-row">
-            {imageUrl ?
+            {imageUrl ? (
               <img
                 src={imageUrl}
                 alt="Presentation"
                 className="presentation-image"
               />
-              :
-              <div></div>}
+            ) : (
+              <div></div>
+            )}
             <ul className="bullet-points">
               {bulletPoints?.map((bullet, index) => (
                   <li className="bullet-points" key={index}>{bullet}</li>
@@ -268,11 +266,7 @@ function InstructionPage() {
         <Subtitle recognizedText={recognizedText} interimText={interimText} />
       </div>
       <Link to="/EndingPage">
-        <a
-          href="#"
-          className="finish-presentation-link"
-          onClick={stop}
-        >
+        <a href="#" className="finish-presentation-link" onClick={stop}>
           FINISH PRESENTATION
         </a>
       </Link>
@@ -280,14 +274,13 @@ function InstructionPage() {
   );
 }
 
-
 async function clearStates() {
   try {
     const response = await fetch("http://localhost:8000/clear", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json" // Not strictly necessary for GET requests
-      }
+        "Content-Type": "application/json", // Not strictly necessary for GET requests
+      },
     });
 
     // Check if the response is ok (status code 200-299)
@@ -307,15 +300,19 @@ async function fetchHeaderAndBullet(presentationInfo) {
     console.log("fetching");
     sentenceArray.push(presentationInfo.words);
 
-    const textJson = { id: sentenceArray.length, words: presentationInfo.words, bullets: presentationInfo.bullets };
+    const textJson = {
+      id: sentenceArray.length,
+      words: presentationInfo.words,
+      bullets: presentationInfo.bullets,
+    };
 
     try {
       const response = await fetch("http://localhost:8000/words", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(textJson)
+        body: JSON.stringify(textJson),
       });
 
       if (!response.ok) {
