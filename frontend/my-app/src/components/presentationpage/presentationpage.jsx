@@ -88,17 +88,23 @@ function PresentationPage() {
           <h2>
             How to Use <id id="logo">PRESENTIFY</id>
           </h2>
+          <br></br>
           <p>Presentations have never been easier.</p>
+          <br></br>
           <p>Images, captions, and bullet points will generate as you speak.</p>
+          <br></br>
           <p>
-            Press your left arrow to go to your next bullet point. Press your
-            right arrow key to clear a slide.{" "}
+            Press your <b>left arrow</b> to go to your next bullet point. Press
+            your
+            <b> right arrow </b> key to clear a slide.{" "}
           </p>
+          <br></br>
           <button onClick={startListening}>START PRESENTATION</button>
         </div>
 
         <div className="sound-queues">
           <h3>SOUND QUEUES</h3>
+          <br></br>
           <div className="sound-queue-toggle">
             <label className="switch">
               <input type="checkbox" />
