@@ -1,4 +1,4 @@
-import "./presentationpage.css";
+import "./PresentationPage.css";
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -127,7 +127,7 @@ function PresentationPage() {
             <b> right arrow </b> key to clear a slide.{" "}
           </p>
           <br></br>
-          <button onClick={startListening}>START PRESENTATION</button>
+          <button onClick={start}>START PRESENTATION</button>
         </div>
         <div className="sound-queues">
           <h3>SOUND QUEUES</h3>
