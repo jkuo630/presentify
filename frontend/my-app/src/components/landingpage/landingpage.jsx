@@ -7,13 +7,15 @@ const LandingPage = () => {
     <div>
       <div className="landing-container">
         <div className="overlay-image">
-        <div className="landing-logo-text">
-        <h1 className="landing-header">PRESENTIFY</h1>
-        <h2 className="landing-body">Live Generated Presentations </h2>
-        </div>
-        <Link to="/PresentationPage">
-          <button class="next-button" type="submit">START</button>
-        </Link>
+          <div className="landing-logo-text">
+            <h1 className="landing-header">PRESENTIFY</h1>
+            <h2 className="landing-body">Live Generated Presentations </h2>
+          </div>
+          <Link to="/InstructionPage">
+            <button class="next-button" type="submit">
+              START
+            </button>
+          </Link>
         </div>
       </div>
     </div>

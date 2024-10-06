@@ -1,4 +1,5 @@
-import "./presentationpage.css";
+import "./PresentationPage.css";
+import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,6 +8,7 @@ import {
   faBug,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect, useRef } from "react";
 
 let sentenceArray = [];
 
@@ -117,15 +119,11 @@ function PresentationPage() {
             How to Use <id id="logo">PRESENTIFY</id>
           </h2>
           <br></br>
-          <p>Presentations have never been easier.</p>
+          <p>This is a bullet point.</p>
           <br></br>
-          <p>Images, captions, and bullet points will generate as you speak.</p>
+          <p>This is also a bullet point.</p>
           <br></br>
-          <p>
-            Press your <b>left arrow</b> to go to your next bullet point. Press
-            your
-            <b> right arrow </b> key to clear a slide.{" "}
-          </p>
+          <p>This is yet another bullet point.</p>
           <br></br>
           <button onClick={startListening}>START PRESENTATION</button>
         </div>
