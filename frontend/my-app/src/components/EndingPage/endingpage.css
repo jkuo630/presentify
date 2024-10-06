@@ -105,5 +105,8 @@ p {
 }
 
 .summary {
-  margin-top: 400px;
+  margin-top: 250px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  width: 25rem;
 }

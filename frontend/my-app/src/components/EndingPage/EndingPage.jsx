@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const EndingPage = () => {
   const [bullets, setBullets] = useState([]); // State to store fetched summary
+  const [error, setError] = useState(null); // State to handle errors
 
   // Fetch the summary when the component mounts
   useEffect(() => {
@@ -21,12 +22,16 @@ const EndingPage = () => {
         }
 
         const jsonResponse = await response.json();
-        console.log("Summary fetched:", jsonResponse);
 
-        // Assuming the response contains an array of bullet points under `bullets`
-        setBullets(jsonResponse.bullets || []); // Update state with fetched bullets
+        // Check if the response has a valid 'bullets' array
+        if (jsonResponse && Array.isArray(jsonResponse.bullets)) {
+          setBullets(jsonResponse.bullets); // Update state with fetched bullets
+        } else {
+          throw new Error("Invalid JSON structure");
+        }
       } catch (error) {
         console.error("Error fetching summary:", error);
+        setError(error.message); // Set the error state
       }
     };
 
@@ -53,11 +58,13 @@ const EndingPage = () => {
           <div className="summary">
             <h3>Summary</h3>
             <ul>
-              {/* Map through the bullets and render each as a list item */}
-              {bullets.length > 0 ? (
+              {/* Display either error, loading state, or fetched summary */}
+              {error ? (
+                <li>Error: {error}</li>
+              ) : bullets.length > 0 ? (
                 bullets.map((bullet, index) => <li key={index}>{bullet}</li>)
               ) : (
-                <li>Loading summary...</li> // Fallback while fetching
+                <li>Loading summary...</li>
               )}
             </ul>
           </div>

@@ -1,4 +1,5 @@
 import "./InstructionPage.css";
+import backgroundImage from "./images/background.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -117,6 +118,7 @@ function InstructionPage() {
         // Clear the imageUrl and bulletPoints when right arrow key is pressed
         setImageUrl(null); // Reset imageUrl to null
         setBulletPoints([]); // Reset bulletPoints to an empty array
+        setText("");
 
         console.log("Right arrow key pressed. Image and bullets cleared.");
       }
@@ -189,6 +191,7 @@ function InstructionPage() {
                 onClick={() => {
                   start();
                   startPresentation();
+                  // clearStates();
                 }}
               >
                 START PRESENTATION
@@ -244,11 +247,7 @@ function InstructionPage() {
           <h1>PRESENTIFY</h1>
           <div className="middle-row">
             {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt="Presentation"
-                className="presentation-image"
-              />
+              <img src={imageUrl} className="presentation-image" />
             ) : (
               <div></div>
             )}
@@ -267,7 +266,14 @@ function InstructionPage() {
         <Subtitle recognizedText={recognizedText} interimText={interimText} />
       </div>
       <Link to="/EndingPage">
-        <a href="#" className="finish-presentation-link" onClick={stop}>
+        <a
+          href="#"
+          className="finish-presentation-link"
+          onClick={() => {
+            stop();
+            clearStates();
+          }}
+        >
           FINISH PRESENTATION
         </a>
       </Link>
