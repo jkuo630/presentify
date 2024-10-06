@@ -31,25 +31,26 @@ app.post("/words", async (req, res) => {
   try {
     // Recieve JSON from front-end
     const wordsAndBullets = req.body;
-    console.log("Received body:", wordsAndBullets);
-
     const gptResponse = await generatePrompt(wordsAndBullets, bullet, prevImage);
-    console.log("GPT response:", gptResponse); // Log the raw response
 
+    // Parse the JSON data that GPT gave
     const gpt = JSON.parse(gptResponse);
+
+    // Update the bullet variables
+    bullet = gpt.bullets;
+    totalBullets = totalBullets.concat(bullet);
+
     if (gpt.image !== prevImage) {
-      console.log("arrived at imagedisplay")
       const image = await ImageDisplay(gpt.image);
-      console.log("image link: " + image);
       gpt.image = image;
       prevImage = image;
     } else {
       gpt.image = "marcuskam";
     }
-    console.log("Returning GPT:", gpt);
+    
+    // Send the json back
+    res.json(gpt);
 
-
-    res.json(gpt); // Send the json back
   } catch (error) {
     console.error('Error in /words route:', error);
     res.status(500).send(`Error fetching image: ${error.message}`); // Send an error response
