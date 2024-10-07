@@ -19,10 +19,10 @@ You will be provided with text containing three inputs: one after "words:", one 
 
 5. **Irrelevant information:** If the given phrase isn’t relevant for a bullet point, save it for potential future context, but do not modify the bullets.
 
-6. **Image generation:** Use the newly generated bullet points to determine the best option for the “image” field. If the new bullet points are similar to the “previous image prompt” or if the “previous image prompt” encapsulates the idea well, use the “previous image prompt” unchanged. Otherwise, generate a new image description based on the bullet points.
+6. Use the newly generated bullet points to come up with the best keywords to generate an image, if it is similar to the “previous image prompt” or if the “previous image prompt” incapsulates the idea well, do not change it and simply pass the previous image prompt you were initially given as the “image” in the output
 
 Return output in JSON format. Use this structure:
-- "image": (the short phrase/keyword you generate based on the bullet points or the "previous image prompt"),
+- "image": (the short phrase/keyword you generate based on the words),
 - "bullets": (an array of up to 3 bullet points).
 
 **Plain JSON only**—no formatting, no extra text.
@@ -79,3 +79,5 @@ export async function generateSummary(bullets) {
         console.error("Error generating:", error);
     }
 }
+
+generatePrompt("I like michael jordan, he is my favourite basketball player. I really think he is the best of all time", ["","",""], "");
